@@ -19,7 +19,7 @@ namespace SanctionsAndDisbursementService.Application.DTO.LoanDeals
         public async Task<LoanDealsDto?> GetLoanDealsById(int id)
         {
             var response = await client
-                .GetFromJsonAsync<ApiResponse<LoanDealsDto>>($"/api/LoanDeals/{id}");
+                .GetFromJsonAsync<ApiResponse<LoanDealsDto>>($"api/LoanDeals/{id}");
 
             return response?.Data;
         }
