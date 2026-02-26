@@ -25,7 +25,7 @@ namespace SanctionAndDisbursementService.API.Controllers
         public async Task<IActionResult> FetchAllSanctions()
         {
             var data = await repo.GetAllSanctions();
-            if(data!=null)
+            if (data != null)
             {
                 return Ok(ApiResponse<List<SanctionResponseDto>>.SuccessResponse(
                data, "Sanctions Fetched Successfully"));
@@ -40,7 +40,7 @@ namespace SanctionAndDisbursementService.API.Controllers
         public async Task<IActionResult> FetchSanctionsById(int id)
         {
             var data = await repo.GetSanctionById(id);
-            if(data!=null)
+            if (data != null)
             {
                 return Ok(ApiResponse<SanctionResponseDto>.SuccessResponse(
                data, "Sanctions Fetched Successfully"));
@@ -51,7 +51,7 @@ namespace SanctionAndDisbursementService.API.Controllers
         }
 
         [HttpPost]
-        public async Task <IActionResult> AddSanctions(SanctionDto dto)
+        public async Task<IActionResult> AddSanctions(SanctionDto dto)
         {
             await repo.AddSanctions(dto);
 
@@ -81,6 +81,16 @@ namespace SanctionAndDisbursementService.API.Controllers
 
             return File(bytes, "application/pdf",
                         Path.GetFileName(sanction.pdfPath));
+        }
+
+
+        [HttpGet("preview/{dealId}")]
+        public async Task<IActionResult> GetPreview(int dealId)
+        {
+            var data = await repo.GetSanctionPreview(dealId);
+
+            return Ok(ApiResponse<SanctionPreviewDto>
+                .SuccessResponse(data, "Preview fetched successfully"));
         }
 
 

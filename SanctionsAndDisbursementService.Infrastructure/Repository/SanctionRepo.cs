@@ -31,7 +31,7 @@ namespace SanctionsAndDisbursementService.Infrastructure.Repository
             this.client = client;
         }
 
-        public  async Task AddSanctions(SanctionDto dto)
+        public async Task AddSanctions(SanctionDto dto)
         {
 
             if (dto.dealId <= 0)
@@ -53,7 +53,7 @@ namespace SanctionsAndDisbursementService.Infrastructure.Repository
             if (deal == null)
                 throw new Exception("Loan Deal not found");
 
-            if (dto.interestRate <= 0 || dto.interestRate>40)
+            if (dto.interestRate <= 0 || dto.interestRate > 40)
             {
                 throw new ArgumentException("Invalid Interest Rate");
             }
@@ -153,8 +153,8 @@ namespace SanctionsAndDisbursementService.Infrastructure.Repository
         }
 
         public async Task<SanctionResponseDto> FindSanctions(int id)
-        {    
-           var d=await db.Sanctions.FirstOrDefaultAsync(c => c.sanctionId == id && c.isActive);
+        {
+            var d = await db.Sanctions.FirstOrDefaultAsync(c => c.sanctionId == id && c.isActive);
             var res = mapper.Map<SanctionResponseDto>(d);
             return res;
         }
@@ -162,7 +162,7 @@ namespace SanctionsAndDisbursementService.Infrastructure.Repository
         public async Task<List<SanctionResponseDto>> GetAllSanctions()
         {
             var d = await db.Sanctions.ToListAsync();
-            
+
             var res = mapper.Map<List<SanctionResponseDto>>(d);
             foreach (var i in res)
             {
@@ -182,8 +182,14 @@ namespace SanctionsAndDisbursementService.Infrastructure.Repository
         public async Task<SanctionResponseDto> GetSanctionById(int id)
         {
             var d = await db.Sanctions.FindAsync(id);
-            LoanDealsDto deal = await client.GetLoanDealsById(id);
+
+            if (d == null)
+                return null;
+
+            LoanDealsDto deal = await client.GetLoanDealsById(d.dealId); 
+
             var res = mapper.Map<SanctionResponseDto>(d);
+
             if (deal != null)
             {
                 res.loanTypeName = deal.loanTypeName;
@@ -192,7 +198,26 @@ namespace SanctionsAndDisbursementService.Infrastructure.Repository
                 res.riskRating = deal.riskRating;
                 res.cibilScore = deal.cibilScore;
             }
+
             return res;
+        }
+
+        public async Task<SanctionPreviewDto> GetSanctionPreview(int dealId)
+        {
+            var deal = await client.GetLoanDealsById(dealId);
+
+            if (deal == null)
+                throw new Exception("Loan Deal not found");
+
+            return new SanctionPreviewDto
+            {
+                dealId = deal.dealId,
+                customerName = deal.customerName,   
+                eligibleAmount = deal.eligibleAmount,
+                approvedAmount = deal.approvedAmount,
+                cibilScore = deal.cibilScore,
+                riskRating = deal.riskRating
+            };
         }
     }
 }

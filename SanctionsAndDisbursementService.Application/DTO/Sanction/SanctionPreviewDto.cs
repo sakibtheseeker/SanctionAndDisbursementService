@@ -4,26 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SanctionsAndDisbursementService.Application.DTO.LoanDeals
+namespace SanctionsAndDisbursementService.Application.DTO.Sanction
 {
-    public class LoanDealsDto
+    public class SanctionPreviewDto
     {
         public int dealId { get; set; }
-        public int custId { get; set; }
         public string customerName { get; set; }
-
-        public int scorecardId { get; set; }
-
-        public string loanTypeName { get; set; }
         public decimal eligibleAmount { get; set; }
-
         public decimal approvedAmount { get; set; }
-
-        public int riskRating { get; set; }
-
         public int cibilScore { get; set; }
-
-        public string currentStatus { get; set; }
-
+        public int riskRating { get; set; }
     }
 }

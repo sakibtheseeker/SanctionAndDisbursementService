@@ -18,5 +18,7 @@ namespace SanctionsAndDisbursementService.Application.Interfaces
         Task<List<SanctionResponseDto>> GetAllSanctions();
 
         Task<SanctionResponseDto> FindSanctions(int id);
+
+        Task<SanctionPreviewDto> GetSanctionPreview(int dealId);
     }
 }
