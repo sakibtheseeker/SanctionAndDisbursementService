@@ -11,6 +11,8 @@ namespace SanctionsAndDisbursementService.Application.DTO.Sanction
     {
         public int sanctionId { get; set; }
 
+        public string? authUserName { get; set; }
+
         public int dealId { get; set; }
 
         public Guid sanctionNo { get; set; } = Guid.NewGuid();

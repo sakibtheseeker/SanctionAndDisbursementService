@@ -174,6 +174,8 @@ namespace SanctionsAndDisbursementService.Infrastructure.Repository
                     i.approvedAmount = deal.approvedAmount;
                     i.riskRating = deal.riskRating;
                     i.cibilScore = deal.cibilScore;
+                    i.authUserName = deal.authUserName;
+                    i.currentStatus = deal.currentStatus;
                 }
             }
             return res;
@@ -197,6 +199,9 @@ namespace SanctionsAndDisbursementService.Infrastructure.Repository
                 res.approvedAmount = deal.approvedAmount;
                 res.riskRating = deal.riskRating;
                 res.cibilScore = deal.cibilScore;
+
+                res.authUserName = deal.authUserName;
+                res.currentStatus = deal.currentStatus;
             }
 
             return res;
@@ -212,7 +217,7 @@ namespace SanctionsAndDisbursementService.Infrastructure.Repository
             return new SanctionPreviewDto
             {
                 dealId = deal.dealId,
-                customerName = deal.customerName,   
+                customerName = deal.authUserName,   
                 eligibleAmount = deal.eligibleAmount,
                 approvedAmount = deal.approvedAmount,
                 cibilScore = deal.cibilScore,
